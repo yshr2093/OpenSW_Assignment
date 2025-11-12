@@ -8,6 +8,8 @@ double myadd(double _a,double _b);
 double mysub(double _a,double _b);
 double mymul(double _a,double _b);
 double mydiv(double _a,double _b);
+double mypow(double _a,double _b);
+double mymod(double _a,double _b);
 
 
 #endif
