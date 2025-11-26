@@ -6,7 +6,8 @@ INC_DIR=$(PROJ_DIR)/include
 BIN_DIR=$(PROJ_DIR)/bin
 
 CC=gcc
-LIB_OBJ=$(subst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(wildcard $(SRC_DIR)/*.c))
+SRCS=$(filter-out $(SRC_DIR)/myapp.c , $(wildcard $(SRC_DIR)/*.c))
+LIB_OBJ=$(subst $(SRC_DIR), $(OBJ_DIR), $(SRCS:.c=.o))
 
 .PHONY: clean all
 all: $(BIN_DIR)/myapp
@@ -17,9 +18,9 @@ $(LIB_DIR)/libmyops.so:	$(LIB_DIR)/libmyops.so.1
 $(LIB_DIR)/libmyops.so.1: $(LIB_DIR)/libmyops.so.1.0
 	ln -s libmyops.so.1.0 $@
 $(LIB_DIR)/libmyops.so.1.0: $(LIB_OBJ)
-	$(CC) -shared -o $@ $^ -I$(INC_DIR)
+	$(CC) -fPIC -shared -o $@ $^ 
 $(OBJ_DIR)/%.o:	$(SRC_DIR)/%.c
-	$(CC) -c $< -o $@ -I$(INC_DIR)
+	$(CC) -fPIC -c $< -o $@ -I$(INC_DIR)
 
 clean:
 	rm -rf $(OBJ_DIR)/* $(LIB_DIR)/* $(BIN_DIR)/*
